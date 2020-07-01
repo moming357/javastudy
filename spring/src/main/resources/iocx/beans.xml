@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="controller" class="com.zhenL.iocx.controller.IocxController" scope="prototype">
+        <property name="iocxService" ref="service"></property>
+    </bean>
+    <bean id="service" class="com.zhenL.iocx.service.impl.IocxServiceImpl">
+        <property name="iocxDao" ref="dao"/>
+        <!-- Set注入 -->
+        <property name="infos">
+            <set>
+                <value>aaa</value>
+                <value>bbb</value>
+                <value>ccc</value>
+            </set>
+        </property>
+
+        <!--  List注入 -->
+        <property name="accounts">
+            <list>
+                <value>list1</value>
+                <value>list2</value>
+                <value>list3</value>
+            </list>
+        </property>
+
+        <!-- Map注入 -->
+        <property name="mapData">
+            <map>
+                <entry key="k1" value="v1"/>
+                <entry key="k2" value="v2"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="dao" class="com.zhenL.iocx.dao.impl.IocxDaoImpl">
+
+    </bean>
+
+</beans>

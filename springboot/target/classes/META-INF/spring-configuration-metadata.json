@@ -1,0 +1,32 @@
+{
+  "groups": [
+    {
+      "name": "db",
+      "type": "com.zhenL.bean.DbConfigInfo",
+      "sourceType": "com.zhenL.bean.DbConfigInfo"
+    }
+  ],
+  "properties": [
+    {
+      "name": "db.driver-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zhenL.bean.DbConfigInfo"
+    },
+    {
+      "name": "db.passwd",
+      "type": "java.lang.String",
+      "sourceType": "com.zhenL.bean.DbConfigInfo"
+    },
+    {
+      "name": "db.url",
+      "type": "java.lang.String",
+      "sourceType": "com.zhenL.bean.DbConfigInfo"
+    },
+    {
+      "name": "db.user-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zhenL.bean.DbConfigInfo"
+    }
+  ],
+  "hints": []
+}

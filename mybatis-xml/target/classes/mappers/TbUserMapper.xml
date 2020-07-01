@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 对应mapper类的全路径-->
+<mapper namespace="com.zhenL.mapper.TbUserMapper">
+
+    <select id="selectByUserId" resultType="com.zhenL.bean.TbUser">
+        select * from `tb_user` where `user_id` = #{userId}
+    </select>
+    <!--  多个参数时,可以使用实体bean,因为是实体bean，可以基于反射拿到对应的属性，进而也就知道对应的userId或userName是什么  -->
+    <select id="selectUser" parameterType="com.zhenL.bean.TbUser" resultType="com.zhenL.bean.TbUser">
+        select * from `tb_user` where `user_id` = #{userId} and `user_name` = #{userName}
+    </select>
+
+    <!-- Parameter 'userId' not found. Available parameters are [arg1, arg0, param1, param2] -->
+    <!-- 既然userId无法识别，那就按照异常提示，输入arg1, arg0   ==> select * from `tb_user` where `user_id` = #{arg0} AND `user_name` = #{arg1} -->
+    <!-- 给 param1,param2 也可以 ===>select * from `tb_user` where `user_id` = #{param1} AND `user_name` = #{param2}   -->
+    <select id="selectUser2" resultType="com.zhenL.bean.TbUser">
+         select * from `tb_user` where `user_id` = #{arg0} AND `user_name` = #{arg1}
+    </select>
+
+    <!--  为参数加注解@Param("userId")  -->
+    <select id="selectUser3" resultType="com.zhenL.bean.TbUser">
+        select * from `tb_user` where `user_id` = #{userId} AND `user_name` = #{userName}
+    </select>
+
+    <resultMap id="tbUserMapping" type="com.zhenL.bean.TbUser">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+    </resultMap>
+
+    <!--  将配置文件中的 name="mapUnderscoreToCamelCase" value="true" 去掉之后，返回的数据是null  -->
+    <!--  如果数据库字段与实体属性名称完全一致，那就没什么可以去映射的，直接拿就好，但是我们编程习惯的问题，数据库字段是下划线，Java实体用驼峰  -->
+    <!--  这也就面临着所有字段都要做映射，是不是很麻烦呀，所以mybatis帮我们做了驼峰和下划线的转化 name="mapUnderscoreToCamelCase" value="true" -->
+    <select id="selectUser4" resultMap="tbUserMapping">
+        select * from `tb_user` where `user_id` = #{userId} AND `user_name` = #{userName}
+    </select>
+
+    <!--  动态SQL配置  -->
+    <select id="selectUserForDynamic" resultType="com.zhenL.bean.TbUser">
+        select * from `tb_user` where 1 = 1
+        <if test="userId != null">
+            AND `user_id` = #{userId}
+        </if>
+
+        <if test="userName != null">
+            AND `user_name` = #{userName}
+        </if>
+    </select>
+
+    <insert id="insertUser" parameterType="com.zhenL.bean.TbUser">
+        insert into `tb_user`(`user_id`,`user_name`) values(#{userId},#{userName})
+    </insert>
+
+    <!-- 获取主键 -->
+    <insert id="insertTbUser" parameterType="TbUser" useGeneratedKeys="true" keyProperty="id">
+        insert  into `tb_user`(`user_id`,`user_name`) values(#{userId},#{userName})
+    </insert>
+
+    <!-- 批量插入 -->
+    <insert id="insertUsers" parameterType="TbUser" useGeneratedKeys="true" keyProperty="id">
+        insert into `tb_user`(`user_id`,`user_name`) values
+        <foreach collection="list" separator="," item="u">
+            (#{u.userId},#{u.userName})
+        </foreach>
+    </insert>
+</mapper>

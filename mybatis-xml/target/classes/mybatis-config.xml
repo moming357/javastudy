@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!--这个setting配置需要添加，否则对象返回null，设置驼峰自动转换-->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <typeAliases>
+        <package name="com.zhenL.bean"/>
+    </typeAliases>
+
+    <environments default="development">
+        <!-- 可以有多个环境的配置，每个配置用id区分，使用时可以在此修改，或者代码中来指定 -->
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://49.233.204.164/mybatis?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone=UTC"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+        <environment id="test">
+            <transactionManager type="JDBC"/>
+            <dataSource type="course.mybatis1.datasource.LocalDataSourceFactory">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://49.233.204.164/mybatis?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone=UTC"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123456"/>
+                <property name="maxActive" value="20"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!-- 一般配置文件使用的方式 -->
+        <mapper resource="mappers/TbUserMapper.xml"/>
+        <!--        <package name="course.mybatis1.mapper"/>-->
+    </mappers>
+</configuration>
